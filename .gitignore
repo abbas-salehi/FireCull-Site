@@ -9,3 +9,5 @@ downloads/*.zip
 downloads/*.dmg
 downloads/*.zip
 .DS_Store
+
+.DS_Store
