@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FireCull — Private Early Access Download</title>
+  <meta name="description" content="Private early access downloads for invited FireCull users." />
+  <style>
+  :root{
+    --bg:#F7F8FB;
+    --card:#FFFFFF;
+    --text:#1C1E26;
+    --muted:#4B5565;
+    --line:rgba(17,24,39,0.12);
+    --blue:#2563EB;
+    --purple:#7C3AED;
+  }
+
+  html{ box-sizing:border-box; }
+  *, *::before, *::after{ box-sizing:inherit; }
+
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    background:
+      radial-gradient(900px 500px at 20% 10%, rgba(37,99,235,0.14), transparent 60%),
+      radial-gradient(900px 500px at 80% 0%, rgba(124,58,237,0.12), transparent 55%),
+      var(--bg);
+    color:var(--text);
+  }
+
+  .wrap{ max-width:720px; margin:0 auto; padding:56px 20px; }
+
+  .badge{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  h1{ font-size:42px; line-height:1.1; margin:14px 0 6px; letter-spacing:-0.02em; }
+
+  p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0 0 18px; }
+
+  .card{
+    background: var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+    box-shadow: 0 10px 30px rgba(17,24,39,0.08);
+    margin-top:18px;
+  }
+
+  label{ display:block; font-weight:600; margin-bottom:6px; }
+
+  input[type="password"],
+  input[type="text"]{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    font-size:16px;
+    font-family: inherit;
+    margin-bottom:10px;
+  }
+
+  .input-wrap{ position:relative; margin-bottom:10px; }
+  .input-wrap input{ padding-right:76px; margin-bottom:0; }
+
+  .toggle-visibility{
+    position:absolute;
+    top:50%;
+    right:12px;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    color:var(--blue);
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    padding:4px;
+  }
+
+  .toggle-visibility:disabled{ color:var(--muted); cursor:default; }
+
+  .cta{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  .btn{
+    display:inline-block;
+    padding:11px 14px;
+    border-radius:12px;
+    border:1px solid var(--blue);
+    text-decoration:none;
+    color:var(--blue);
+    background:transparent;
+    cursor:pointer;
+  }
+
+  .btn.primary{
+    color:#fff;
+    border: none;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    box-shadow: 0 10px 25px rgba(37,99,235,0.25);
+  }
+
+  .btn-link{ color:var(--blue); text-decoration:none; }
+  .btn-link:hover{ text-decoration:underline; }
+
+  .error{ color:#DC2626; font-size:14px; min-height:18px; }
+  .success{ color:#16A34A; font-size:14px; min-height:18px; }
+
+  .downloads{ display:none; margin-top:18px; }
+  .downloads.visible{ display:block; }
+
+  .download-list{ list-style:none; padding:0; margin:12px 0 0; }
+  .download-list li{ margin-bottom:10px; }
+  .download-list a{ color:var(--blue); text-decoration:none; font-weight:600; }
+  .download-list a:hover{ text-decoration:underline; }
+
+  .intel-note{
+    font-size:13px;
+    color:var(--muted);
+    margin:6px 0 0;
+    padding-left:12px;
+  }
+
+  footer{
+    margin-top:36px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:14px;
+  }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="badge">Private Early Access • Invited users only</span>
+    <h1>FireCull</h1>
+    <p><strong>Private Early Access Download</strong> — Enter your access code to unlock downloads.</p>
+
+    <div class="card">
+      <label for="access-code">Access code</label>
+      <div class="input-wrap">
+        <input id="access-code" type="password" placeholder="enter your access code" autocomplete="off" />
+        <button id="toggle-code-visibility" type="button" class="toggle-visibility" aria-label="Show access code" aria-pressed="false">Show</button>
+      </div>
+      <div class="cta">
+        <button id="unlock" class="btn primary" type="button">Unlock downloads</button>
+        <a class="btn" href="../">Back to homepage</a>
+      </div>
+      <div id="error" class="error"></div>
+      <div id="success" class="success" aria-live="polite"></div>
+
+      <div id="downloads" class="downloads">
+        <h2 style="margin:18px 0 6px;">Downloads</h2>
+        <ul class="download-list">
+          <li><a href="https://drive.google.com/file/d/1GIn_n5XowKZh0wrwzbrMUqXj-8yzfFVw/view?usp=drive_link">FireCull for Windows (Early Access)</a></li>
+          <li><a href="https://downloads.firecull.ai/mac/latest.dmg">FireCull for Mac (Apple Silicon, Early Access)</a></li>
+          <li class="intel-note">Using an older Intel Mac? Contact me and I'll send you the Intel build.</li>
+        </ul>
+        <p style="margin-top:12px; font-size:15px;">FireCull is designed to speed up your first pass — always review final selects.</p>
+        <p style="margin-top:12px; font-size:15px;">FireCull applies star ratings and colour labels based on photo sharpness and eye states to help you quickly identify your best shots.</p>
+        <p style="margin-top:12px; font-size:15px;">These builds run locally inside Lightroom Classic. No images are uploaded or sent anywhere.</p>
+        <p style="margin-top:8px; font-size:15px;">Thanks for being part of FireCull Early Access — your feedback helps shape the product.</p>
+      </div>
+    </div>
+
+    <footer>
+      © <span id="y"></span> FireCull. Built for Lightroom Classic workflows.
+    </footer>
+  </div>
+
+  <script>
+    const validCodes = [
+      'early-access',
+      'TEST-USER'
+    ];
+
+    const codeInput = document.getElementById('access-code');
+    const toggleVisibilityBtn = document.getElementById('toggle-code-visibility');
+    const unlockButton = document.getElementById('unlock');
+    const errorEl = document.getElementById('error');
+    const successEl = document.getElementById('success');
+    const downloads = document.getElementById('downloads');
+
+    const unlockDownloads = () => {
+      const entered = (codeInput.value || '').trim().toUpperCase();
+      if(validCodes.includes(entered)){
+        downloads.classList.add('visible');
+        errorEl.textContent = '';
+        successEl.textContent = 'Access code verified.';
+        codeInput.readOnly = true;
+        toggleVisibilityBtn.setAttribute('disabled', 'true');
+        unlockButton.setAttribute('disabled', 'true');
+        unlockButton.textContent = 'Unlocked ✓';
+      } else {
+        downloads.classList.remove('visible');
+        errorEl.textContent = 'Incorrect code. Please double-check your invite email.';
+        successEl.textContent = '';
+      }
+    };
+
+    unlockButton.addEventListener('click', unlockDownloads);
+    codeInput.addEventListener('keydown', (event) => {
+      if(event.key === 'Enter'){
+        event.preventDefault();
+        unlockDownloads();
+      }
+    });
+
+    toggleVisibilityBtn.addEventListener('click', () => {
+      const isPassword = codeInput.getAttribute('type') === 'password';
+      codeInput.setAttribute('type', isPassword ? 'text' : 'password');
+      toggleVisibilityBtn.textContent = isPassword ? 'Hide' : 'Show';
+      toggleVisibilityBtn.setAttribute('aria-pressed', String(isPassword));
+      toggleVisibilityBtn.setAttribute('aria-label', `${toggleVisibilityBtn.textContent} access code`);
+    });
+
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
