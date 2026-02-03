@@ -62,7 +62,7 @@
   }
 
   @media (min-width:900px){
-    .layout{ grid-template-columns:1.15fr 0.85fr; align-items:flex-start; }
+    .layout.show-info{ grid-template-columns:1.15fr 0.85fr; align-items:flex-start; }
   }
 
   .info-card{
@@ -131,6 +131,9 @@
   .downloads{ display:none; margin-top:18px; }
   .downloads.visible{ display:block; }
 
+  #explain{ display:none; }
+  #explain.visible{ display:block; }
+
   .download-list{ list-style:none; padding:0; margin:12px 0 0; }
   .download-list li{ margin-bottom:10px; }
   .download-list a{ color:var(--blue); text-decoration:none; font-weight:600; }
@@ -186,7 +189,7 @@
         </div>
       </div>
 
-      <div class="card info-card">
+      <div id="explain" class="card info-card">
         <h2 style="margin:0 0 8px;">How FireCull rates &amp; labels photos</h2>
         <ul style="margin-bottom:12px;">
           <li>
@@ -223,11 +226,15 @@
     const errorEl = document.getElementById('error');
     const successEl = document.getElementById('success');
     const downloads = document.getElementById('downloads');
+    const explain = document.getElementById('explain');
+    const layout = document.querySelector('.layout');
 
     const unlockDownloads = () => {
       const entered = (codeInput.value || '').trim().toUpperCase();
       if(validCodes.includes(entered)){
         downloads.classList.add('visible');
+        explain.classList.add('visible');
+        layout.classList.add('show-info');
         errorEl.textContent = '';
         successEl.textContent = 'Access code verified.';
         codeInput.readOnly = true;
@@ -236,6 +243,8 @@
         unlockButton.textContent = 'Unlocked ✓';
       } else {
         downloads.classList.remove('visible');
+        explain.classList.remove('visible');
+        layout.classList.remove('show-info');
         errorEl.textContent = 'Incorrect code. Please double-check your invite email.';
         successEl.textContent = '';
       }
