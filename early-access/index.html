@@ -134,9 +134,10 @@
   #explain{ display:none; }
   #explain.visible{ display:block; }
 
-  .star-line{ color:#C08A2B; font-weight:600; }
+  .star-line{ font-weight:600; }
+  .stars-gold{ color:#F5B400; }
   .label-red{ color:#DC2626; }
-  .label-yellow{ color:#C7791F; }
+  .label-yellow{ color:#EAB308; }
 
   .download-list{ list-style:none; padding:0; margin:12px 0 0; }
   .download-list li{ margin-bottom:10px; }
@@ -198,13 +199,13 @@
         <ul style="margin-bottom:12px;">
           <li>
             <strong>Star ratings</strong> stay relative within each run so sharper frames float to the top.<br />
-            <span class="star-line" style="display:block; margin-top:6px;">★★★★★ → sharpest ~20%<br />★★★★ → next ~20%<br />★★★ → middle ~20%<br />★★ → softer ~20%<br />★ → least sharp ~20%</span>
+            <span class="star-line" style="display:block; margin-top:6px;"><span class="stars-gold">★★★★★</span> → sharpest ~20%<br /><span class="stars-gold">★★★★</span> → next ~20%<br /><span class="stars-gold">★★★</span> → middle ~20%<br /><span class="stars-gold">★★</span> → softer ~20%<br /><span class="stars-gold">★</span> → least sharp ~20%</span>
           </li>
           <li>
             <strong>Color labels</strong> stay simple:
             <ul style="margin:6px 0 0 18px;">
-              <li><strong class="label-red">Red label</strong> = eyes detected as closed.</li>
-              <li><strong class="label-yellow">Yellow label</strong> = eyes detected as occluded (e.g. sunglasses).</li>
+              <li><strong><span class="label-red">Red</span> label</strong> = eyes detected as closed.</li>
+              <li><strong><span class="label-yellow">Yellow</span> label</strong> = eyes detected as occluded (e.g. sunglasses).</li>
               <li><strong>No label</strong> = eyes open or no face detected.</li>
             </ul>
           </li>
