@@ -29,7 +29,7 @@
     color:var(--text);
   }
 
-  .wrap{ max-width:720px; margin:0 auto; padding:56px 20px; }
+  .wrap{ max-width:980px; margin:0 auto; padding:56px 20px; }
 
   .badge{
     display:inline-block;
@@ -52,7 +52,22 @@
     border-radius:18px;
     padding:24px;
     box-shadow: 0 10px 30px rgba(17,24,39,0.08);
+  }
+
+  .layout{
     margin-top:18px;
+    display:grid;
+    gap:18px;
+    grid-template-columns:1fr;
+  }
+
+  @media (min-width:900px){
+    .layout{ grid-template-columns:1.15fr 0.85fr; align-items:flex-start; }
+  }
+
+  .info-card{
+    padding:20px;
+    box-shadow: 0 8px 24px rgba(17,24,39,0.06);
   }
 
   label{ display:block; font-weight:600; margin-bottom:6px; }
@@ -143,30 +158,51 @@
     <h1>FireCull</h1>
     <p><strong>Private Early Access Download</strong> — Enter your access code to unlock downloads.</p>
 
-    <div class="card">
-      <label for="access-code">Access code</label>
-      <div class="input-wrap">
-        <input id="access-code" type="password" placeholder="enter your access code" autocomplete="off" />
-        <button id="toggle-code-visibility" type="button" class="toggle-visibility" aria-label="Show access code" aria-pressed="false">Show</button>
-      </div>
-      <div class="cta">
-        <button id="unlock" class="btn primary" type="button">Unlock downloads</button>
-        <a class="btn" href="../">Back to homepage</a>
-      </div>
-      <div id="error" class="error"></div>
-      <div id="success" class="success" aria-live="polite"></div>
+    <div class="layout">
+      <div class="card primary-card">
+        <label for="access-code">Access code</label>
+        <div class="input-wrap">
+          <input id="access-code" type="password" placeholder="enter your access code" autocomplete="off" />
+          <button id="toggle-code-visibility" type="button" class="toggle-visibility" aria-label="Show access code" aria-pressed="false">Show</button>
+        </div>
+        <div class="cta">
+          <button id="unlock" class="btn primary" type="button">Unlock downloads</button>
+          <a class="btn" href="../">Back to homepage</a>
+        </div>
+        <div id="error" class="error"></div>
+        <div id="success" class="success" aria-live="polite"></div>
 
-      <div id="downloads" class="downloads">
-        <h2 style="margin:18px 0 6px;">Downloads</h2>
-        <ul class="download-list">
-          <li><a href="https://downloads.firecull.ai/win/latest.zip">FireCull for Windows (Early Access)</a></li>
-          <li><a href="https://downloads.firecull.ai/mac/latest.dmg">FireCull for Mac (Apple Silicon, Early Access)</a></li>
-          <li class="intel-note">Using an older Intel Mac? Contact me and I'll send you the Intel build.</li>
+        <div id="downloads" class="downloads">
+          <h2 style="margin:18px 0 6px;">Downloads</h2>
+          <ul class="download-list">
+            <li><a href="https://downloads.firecull.ai/win/latest.zip">FireCull for Windows (Early Access)</a></li>
+            <li><a href="https://downloads.firecull.ai/mac/latest.dmg">FireCull for Mac (Apple Silicon, Early Access)</a></li>
+            <li class="intel-note">Using an older Intel Mac? Contact me and I'll send you the Intel build.</li>
+          </ul>
+          <p style="margin-top:12px; font-size:15px;">FireCull is designed to speed up your first pass — always review final selects.</p>
+          <p style="margin-top:12px; font-size:15px;">FireCull applies star ratings and colour labels based on photo sharpness and eye states to help you quickly identify your best shots.</p>
+          <p style="margin-top:12px; font-size:15px;">These builds run locally inside Lightroom Classic. No images are uploaded or sent anywhere.</p>
+          <p style="margin-top:8px; font-size:15px;">Thanks for being part of FireCull Early Access — your feedback helps shape the product.</p>
+        </div>
+      </div>
+
+      <div class="card info-card">
+        <h2 style="margin:0 0 8px;">How FireCull rates &amp; labels photos</h2>
+        <ul style="margin-bottom:12px;">
+          <li>
+            <strong>Star ratings</strong> stay relative within each run so sharper frames float to the top.<br />
+            <span style="display:block; margin-top:6px;">★★★★★ → sharpest ~20%<br />★★★★ → next ~20%<br />★★★ → middle ~20%<br />★★ → softer ~20%<br />★ → least sharp ~20%</span>
+          </li>
+          <li>
+            <strong>Color labels</strong> stay simple:
+            <ul style="margin:6px 0 0 18px;">
+              <li><strong>Red label</strong> = eyes detected as closed.</li>
+              <li><strong>Yellow label</strong> = eyes detected as occluded (e.g. sunglasses).</li>
+              <li><strong>No label</strong> = eyes open or no face detected.</li>
+            </ul>
+          </li>
         </ul>
-        <p style="margin-top:12px; font-size:15px;">FireCull is designed to speed up your first pass — always review final selects.</p>
-        <p style="margin-top:12px; font-size:15px;">FireCull applies star ratings and colour labels based on photo sharpness and eye states to help you quickly identify your best shots.</p>
-        <p style="margin-top:12px; font-size:15px;">These builds run locally inside Lightroom Classic. No images are uploaded or sent anywhere.</p>
-        <p style="margin-top:8px; font-size:15px;">Thanks for being part of FireCull Early Access — your feedback helps shape the product.</p>
+        <p style="margin:0;">Results stay relative to each selection, and FireCull is a first-pass assistant — always review before final delivery.</p>
       </div>
     </div>
 
