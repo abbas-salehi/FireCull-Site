@@ -82,6 +82,33 @@
     box-shadow: 0 10px 25px rgba(37,99,235,0.25);
   }
 
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(17,24,39,0.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:20;
+  }
+
+  .modal-backdrop.visible{ display:flex; }
+
+  .modal{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px;
+    max-width:420px;
+    width:100%;
+    box-shadow:0 16px 40px rgba(17,24,39,0.18);
+  }
+
+  .modal h3{ margin:0 0 8px; font-size:18px; }
+
+  .modal p{ margin:0 0 14px; font-size:15px; color:var(--muted); }
+
   footer{
     margin-top:36px;
     padding-top:18px;
@@ -101,7 +128,7 @@
       <div class="card primary-card">
         <h2 style="margin:0 0 10px;">Downloads</h2>
         <div class="cta">
-          <a class="btn primary" href="https://downloads.firecull.ai/mac/latest.dmg">Download for macOS</a>
+          <a class="btn" href="https://downloads.firecull.ai/mac/latest.dmg">Download for macOS</a>
           <a class="btn" href="https://downloads.firecull.ai/win/latest.zip">Download for Windows</a>
           <a class="btn" href="../">Back to homepage</a>
         </div>
@@ -121,7 +148,50 @@
     </footer>
   </div>
 
+  <div class="modal-backdrop" id="license-modal" role="dialog" aria-modal="true" aria-labelledby="license-title">
+    <div class="modal">
+      <h3 id="license-title">Licensing</h3>
+      <p>Licensing is being enabled. For now, email founder@firecull.ai to purchase a key.</p>
+      <button class="btn" type="button" data-modal-close>Close</button>
+    </div>
+  </div>
+
   <script>
+    const licenseModal = document.getElementById('license-modal');
+    const openLicenseButtons = document.querySelectorAll('[data-modal="license"]');
+    const closeLicenseButtons = document.querySelectorAll('[data-modal-close]');
+
+    const openLicenseModal = () => {
+      licenseModal.classList.add('visible');
+    };
+
+    const closeLicenseModal = () => {
+      licenseModal.classList.remove('visible');
+    };
+
+    openLicenseButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        openLicenseModal();
+      });
+    });
+
+    closeLicenseButtons.forEach((button) => {
+      button.addEventListener('click', closeLicenseModal);
+    });
+
+    licenseModal.addEventListener('click', (event) => {
+      if (event.target === licenseModal) {
+        closeLicenseModal();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeLicenseModal();
+      }
+    });
+
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
 </body>
