@@ -62,8 +62,7 @@
     content:"";
     position:absolute;
     inset:-18px;
-    background: radial-gradient(320px 180px at 30% 20%, rgba(37,99,235,0.16), transparent 70%),
-      radial-gradient(320px 180px at 70% 10%, rgba(124,58,237,0.14), transparent 70%);
+    background: radial-gradient(800px 400px at 50% -20%, rgba(124,58,237,0.12), transparent 70%);
     filter: blur(10px);
     z-index:-1;
   }
@@ -109,8 +108,14 @@
   .btn.primary{
     color:#fff;
     border: none;
-    background: linear-gradient(90deg, var(--blue), var(--purple));
+    background: linear-gradient(90deg, #3B82F6, #7C3AED);
     box-shadow: 0 10px 25px rgba(37,99,235,0.25);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .btn.primary:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(37,99,235,0.35);
   }
 
   .btn.small{
