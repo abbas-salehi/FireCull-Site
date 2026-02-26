@@ -54,6 +54,20 @@
     box-shadow: 0 10px 30px rgba(17,24,39,0.08);
   }
 
+  .primary-card{
+    position:relative;
+  }
+
+  .primary-card::before{
+    content:"";
+    position:absolute;
+    inset:-18px;
+    background: radial-gradient(320px 180px at 30% 20%, rgba(37,99,235,0.16), transparent 70%),
+      radial-gradient(320px 180px at 70% 10%, rgba(124,58,237,0.14), transparent 70%);
+    filter: blur(10px);
+    z-index:-1;
+  }
+
   .layout{
     margin-top:18px;
     display:grid;
@@ -63,6 +77,23 @@
 
 
   .cta{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  .cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+  }
+
+  .cta-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .cta-right{
+    margin-left:auto;
+  }
 
   .btn{
     display:inline-block;
@@ -80,6 +111,11 @@
     border: none;
     background: linear-gradient(90deg, var(--blue), var(--purple));
     box-shadow: 0 10px 25px rgba(37,99,235,0.25);
+  }
+
+  .btn.small{
+    padding:8px 12px;
+    font-size:13px;
   }
 
   .modal-backdrop{
@@ -127,10 +163,14 @@
     <div class="layout">
       <div class="card primary-card">
         <h2 style="margin:0 0 10px;">Downloads</h2>
-        <div class="cta">
-          <a class="btn" href="https://downloads.firecull.ai/mac/latest.dmg">Download for macOS</a>
-          <a class="btn" href="https://downloads.firecull.ai/win/latest.zip">Download for Windows</a>
-          <a class="btn" href="../">Back to homepage</a>
+        <div class="cta-row">
+          <div class="cta-group">
+            <a class="btn primary" href="https://downloads.firecull.ai/mac/latest.dmg">Download for macOS</a>
+            <a class="btn primary" href="https://downloads.firecull.ai/win/latest.zip">Download for Windows</a>
+          </div>
+          <div class="cta-right">
+            <a class="btn small" href="../">Back to homepage</a>
+          </div>
         </div>
         <p style="margin-top:10px; margin-bottom:12px; font-size:13px; color:var(--muted);">Apple Silicon build. Need Intel Mac? Email me and I’ll send you the Intel build.</p>
         <h3 style="margin:10px 0 6px; font-size:16px;">How it works</h3>
