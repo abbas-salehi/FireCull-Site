@@ -157,6 +157,80 @@
     color:var(--muted);
     font-size:14px;
   }
+
+  /* --- Added sections (Download page) --- */
+  .section-title{
+    margin:16px 0 8px;
+    font-size:16px;
+  }
+
+  .section-subtle{
+    margin:0 0 12px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:14px;
+    margin-top:14px;
+  }
+
+  @media (min-width: 860px){
+    .two-col{ grid-template-columns: 1fr 1fr; }
+  }
+
+  .mini-card{
+    background: rgba(247,248,251,0.55);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+  }
+
+  .mini-card h4{
+    margin:0 0 8px;
+    font-size:14px;
+  }
+
+  .mini-list{
+    margin:0;
+    padding-left:18px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.55;
+  }
+
+  .faq{
+    margin-top:14px;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  details{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 12px;
+    background: rgba(255,255,255,0.65);
+    margin:10px 0;
+  }
+
+  summary{
+    cursor:pointer;
+    font-weight:600;
+    color:var(--text);
+    list-style:none;
+  }
+
+  summary::-webkit-details-marker{ display:none; }
+
+  .faq p{
+    margin:8px 0 0;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.6;
+  }
   </style>
 </head>
 <body>
@@ -177,6 +251,9 @@
             <a class="btn small" href="../">Back to homepage</a>
           </div>
         </div>
+        <p style="margin:10px 0 0; color:var(--muted); font-size:14px;">
+          Runs locally • No uploads • Works in Lightroom Classic
+        </p>
         <h3 style="margin:10px 0 6px; font-size:16px;">How it works</h3>
         <ul style="margin:0 0 0 18px; color:var(--muted); font-size:15px;">
           <li>Trial starts on first run.</li>
@@ -191,6 +268,87 @@
             <li>Purple label: occluded eyes / sunglasses (optional)</li>
             <li>No label: eyes open or not detected</li>
           </ul>
+
+          <!-- ---- Added conversion sections ---- -->
+          <div style="border-top:1px solid var(--line); margin-top:14px; padding-top:14px;">
+
+            <h3 class="section-title">Who it's for</h3>
+            <p class="section-subtle">If any of these sound like you, FireCull is built for your workflow.</p>
+            <div class="two-col">
+              <div class="mini-card">
+                <h4>High-volume culling</h4>
+                <ul class="mini-list">
+                  <li>Wedding photographers sorting 2,000-5,000 images</li>
+                  <li>Event photographers with bursts and duplicates</li>
+                  <li>Portrait sessions with many similar frames</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <h4>Lightroom Classic editors</h4>
+                <ul class="mini-list">
+                  <li>Anyone who wants to stay inside Lightroom Classic</li>
+                  <li>First-pass speed without exporting or uploading</li>
+                  <li>Quickly catching obvious misses (closed eyes)</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 class="section-title" style="margin-top:18px;">Why FireCull</h3>
+            <div class="two-col">
+              <div class="mini-card">
+                <h4>Fast first pass</h4>
+                <ul class="mini-list">
+                  <li>AI sharpness ranking to surface the best frames</li>
+                  <li>Closed-eye detection to catch common rejects</li>
+                  <li>Helps you move faster with more confidence</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <h4>Private & local</h4>
+                <ul class="mini-list">
+                  <li>Runs fully offline - no uploads</li>
+                  <li>No external app required</li>
+                  <li>Designed for Lightroom Classic workflows</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 class="section-title" style="margin-top:18px;">System requirements</h3>
+            <div class="mini-card">
+              <ul class="mini-list">
+                <li>Adobe Lightroom Classic (v15.0+ recommended)</li>
+                <li>macOS (Apple Silicon & Intel supported)</li>
+                <li>Windows 10 or newer</li>
+                <li>Active Adobe subscription or official Lightroom trial</li>
+              </ul>
+            </div>
+
+            <div class="faq">
+              <h3 class="section-title">FAQ</h3>
+
+              <details>
+                <summary>Does FireCull upload my photos?</summary>
+                <p>No. Everything runs locally on your machine. Your photos never leave your computer.</p>
+              </details>
+
+              <details>
+                <summary>Does it work with Lightroom (cloud version)?</summary>
+                <p>No. FireCull is built specifically for <strong>Lightroom Classic</strong>.</p>
+              </details>
+
+              <details>
+                <summary>What happens after the 14-day trial?</summary>
+                <p>You will need to enter a valid license key to continue using FireCull.</p>
+              </details>
+
+              <details>
+                <summary>Can I cancel anytime?</summary>
+                <p>Yes. If you are on a subscription, you can cancel at any time.</p>
+              </details>
+            </div>
+
+          </div>
+          <!-- ---- /Added conversion sections ---- -->
         </div>
       </div>
 
