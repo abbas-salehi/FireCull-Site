@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FireCull — Cull faster inside Lightroom</title>
   <meta name="description" content="FireCull is a Lightroom Classic plugin that speeds up your first pass by ranking sharpness and flagging closed eyes. Runs locally." />
+  <script>
+  window.lemonSqueezyAffiliateConfig = { store: "firecull" };
+  </script>
+  <script src="https://lmsqueezy.com/affiliate.js" defer></script>
   <style>
   :root{
     --bg:#F7F8FB;
@@ -170,9 +174,9 @@
           <a class="btn primary" href="/downloads/">
             Download Free Trial
           </a>
-          <button class="btn" type="button" data-modal="license">
+          <a class="btn" href="https://firecull.lemonsqueezy.com/checkout/buy/852a597b-b2b8-4ff4-b3c8-aa89a3fcd5b9">
             Buy a license
-          </button>
+          </a>
         </div>
 
         <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--line);">
@@ -254,6 +258,46 @@
     });
 
     document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  <script>
+    (function () {
+      const KEY = "fc_aff";
+
+      const params = new URLSearchParams(window.location.search);
+      const aff = params.get("aff");
+      if (aff) {
+        try { localStorage.setItem(KEY, aff); } catch (e) {}
+      }
+
+      function getAff() {
+        try { return localStorage.getItem(KEY); } catch (e) { return null; }
+      }
+
+      function addAffToUrl(href, storedAff) {
+        const url = new URL(href, window.location.origin);
+        if (!url.searchParams.get("aff")) {
+          url.searchParams.set("aff", storedAff);
+        }
+        return url.toString();
+      }
+
+      function decorateLinks() {
+        const storedAff = getAff();
+        if (!storedAff) return;
+
+        document.querySelectorAll('a[href*="lemonsqueezy.com/checkout/buy/"]').forEach((a) => {
+          a.href = addAffToUrl(a.href, storedAff);
+        });
+
+        document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]').forEach((a) => {
+          const href = a.getAttribute("href") || "";
+          if (href.startsWith("mailto:") || href.startsWith("tel:")) return;
+          a.href = addAffToUrl(a.href, storedAff);
+        });
+      }
+
+      decorateLinks();
+    })();
   </script>
 </body>
 </html>
