@@ -104,10 +104,38 @@
     cursor:pointer;
     font-weight:600;
   }
+
+  .top-nav{
+    display:flex;
+    justify-content:flex-end;
+    gap:22px;
+    margin-bottom:22px;
+    font-size:15px;
+  }
+
+  .nav-link{
+    text-decoration:none;
+    color:var(--muted);
+    font-weight:600;
+    transition: color 160ms ease;
+  }
+
+  .nav-link:hover{
+    color:var(--text);
+  }
+
+  .nav-active{
+    color:var(--text);
+  }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <nav class="top-nav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/downloads/" class="nav-link">Downloads</a>
+      <a href="/pricing/" class="nav-link nav-active">Pricing</a>
+    </nav>
 
     <h1>FireCull Pricing</h1>
     <p>AI-powered culling inside Lightroom Classic. Start with a 14-day free trial.</p>

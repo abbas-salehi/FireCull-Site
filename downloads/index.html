@@ -231,10 +231,38 @@
     font-size:14px;
     line-height:1.6;
   }
+
+  .top-nav{
+    display:flex;
+    justify-content:flex-end;
+    gap:22px;
+    margin-bottom:22px;
+    font-size:15px;
+  }
+
+  .nav-link{
+    text-decoration:none;
+    color:var(--muted);
+    font-weight:600;
+    transition: color 160ms ease;
+  }
+
+  .nav-link:hover{
+    color:var(--text);
+  }
+
+  .nav-active{
+    color:var(--text);
+  }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <nav class="top-nav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/downloads/" class="nav-link nav-active">Downloads</a>
+      <a href="/pricing/" class="nav-link">Pricing</a>
+    </nav>
     <span class="badge">14-Day Free Trial • Windows & macOS</span>
     <h1>Downloads (Free Trial)</h1>
     <p>Download FireCull and start your 14-day free trial. Runs locally in Lightroom Classic — no uploads.</p>

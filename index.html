@@ -138,14 +138,37 @@
     border-radius:8px;
     color:var(--text);
   }
+
+  .top-nav{
+    display:flex;
+    justify-content:flex-end;
+    gap:22px;
+    margin-bottom:22px;
+    font-size:15px;
+  }
+
+  .nav-link{
+    text-decoration:none;
+    color:var(--muted);
+    font-weight:600;
+    transition: color 160ms ease;
+  }
+
+  .nav-link:hover{
+    color:var(--text);
+  }
+
+  .nav-active{
+    color:var(--text);
+  }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <nav style="display:flex; justify-content:flex-end; gap:18px; margin-bottom:18px; font-size:14px;">
-      <a href="/" style="color:var(--muted); text-decoration:none;">Home</a>
-      <a href="/downloads/" style="color:var(--muted); text-decoration:none;">Downloads</a>
-      <a href="/pricing/" style="color:var(--muted); text-decoration:none; font-weight:600;">Pricing</a>
+    <nav class="top-nav">
+      <a href="/" class="nav-link nav-active">Home</a>
+      <a href="/downloads/" class="nav-link">Downloads</a>
+      <a href="/pricing/" class="nav-link">Pricing</a>
     </nav>
     <span class="badge">14-Day Free Trial • Windows & macOS</span>
     <h1>FireCull</h1>
@@ -179,7 +202,7 @@
           <a class="btn primary" href="/downloads/">
             Download Free Trial
           </a>
-          <a class="btn" href="https://firecull.lemonsqueezy.com/checkout/buy/852a597b-b2b8-4ff4-b3c8-aa89a3fcd5b9">
+          <a class="btn" href="/pricing/">
             Buy a license
           </a>
         </div>
