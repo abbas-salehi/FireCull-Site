@@ -10,7 +10,7 @@ export async function onRequestPost(context) {
   }
 
   await context.env.DB.prepare(
-    `INSERT INTO downloads (email, created_at, source, aff)
+    `INSERT OR IGNORE INTO downloads (email, created_at, source, aff)
      VALUES (?, datetime('now'), ?, ?)`
   )
     .bind(email, source, aff)
