@@ -16,6 +16,9 @@
   --purple:#7C3AED;
 }
 
+html{ box-sizing:border-box; }
+*, *::before, *::after{ box-sizing:inherit; }
+
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -40,6 +43,7 @@ h1{
 p{
   color:var(--muted);
   font-size:18px;
+  margin-top:0;
 }
 
 .card{
@@ -61,6 +65,7 @@ input{
 }
 
 button{
+  width:100%;
   padding:14px 18px;
   border:none;
   border-radius:12px;
@@ -107,12 +112,10 @@ button:hover{
   <button type="submit">
     Send me the download
   </button>
-
 </form>
 
 <div class="note">
-  We respect your privacy. Your email will only be used to send you the download link and occasional updates about FireCull.
-
+  No spam. Just the download link and occasional FireCull updates.
 </div>
 
 </div>
