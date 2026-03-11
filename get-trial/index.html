@@ -35,6 +35,24 @@ body{
   padding:80px 20px;
 }
 
+.top-nav{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:22px;
+  font-size:15px;
+}
+
+.nav-link{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:600;
+  transition:color 160ms ease;
+}
+
+.nav-link:hover{
+  color:var(--text);
+}
+
 h1{
   font-size:38px;
   margin-bottom:10px;
@@ -92,6 +110,10 @@ button:hover{
 <body>
 
 <div class="wrap">
+
+<nav class="top-nav">
+  <a href="/" class="nav-link">Home</a>
+</nav>
 
 <h1>Download FireCull Free Trial</h1>
 <p>Where should we send the download link?</p>
