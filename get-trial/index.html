@@ -101,6 +101,9 @@ button:hover{
     required
   />
 
+  <input type="hidden" name="source" value="get-trial" />
+  <input type="hidden" name="aff" id="aff-field" value="" />
+
   <button type="submit">
     Continue to Download
   </button>
@@ -114,6 +117,34 @@ No card required · Instant download
 </div>
 
 </div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var rawAff = params.get("aff");
+  var affValue = "";
+
+  if (rawAff && rawAff.trim()) {
+    affValue = rawAff.trim();
+    try {
+      localStorage.setItem("fc_aff", affValue);
+    } catch (error) {
+      // Ignore storage errors.
+    }
+  } else {
+    try {
+      affValue = localStorage.getItem("fc_aff") || "";
+    } catch (error) {
+      affValue = "";
+    }
+  }
+
+  var affField = document.getElementById("aff-field");
+  if (affField) {
+    affField.value = affValue;
+  }
+})();
+</script>
 
 </body>
 </html>
