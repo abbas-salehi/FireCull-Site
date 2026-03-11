@@ -1,4 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FireCull — Free Trial</title>
+
+<style>
+:root{
+  --bg:#F7F8FB;
+  --card:#FFFFFF;
+  --text:#1C1E26;
+  --muted:#4B5565;
+  --line:rgba(17,24,39,0.12);
+  --blue:#2563EB;
+  --purple:#7C3AED;
+}
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(900px 500px at 20% 10%, rgba(37,99,235,0.14), transparent 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(124,58,237,0.12), transparent 55%),
+    var(--bg);
+  color:var(--text);
+}
+
+.wrap{
+  max-width:720px;
+  margin:0 auto;
+  padding:80px 20px;
+}
+
+h1{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+p{
+  color:var(--muted);
+  font-size:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:30px;
+  margin-top:28px;
+  box-shadow:0 10px 30px rgba(17,24,39,0.08);
+}
+
+input{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  margin-bottom:14px;
+}
+
+button{
+  padding:14px 18px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  color:#fff;
+  cursor:pointer;
+  background: linear-gradient(90deg,#3B82F6,#7C3AED);
+  box-shadow:0 10px 25px rgba(37,99,235,0.25);
+}
+
+button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 28px rgba(37,99,235,0.35);
+}
+
+.note{
+  margin-top:10px;
+  font-size:14px;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>Get the FireCull Free Trial</h1>
+<p>Enter your email to download the plugin and start your 14-day free trial.</p>
+
+<div class="card">
+
 <form method="POST" action="/download">
-  <input type="email" name="email" placeholder="Enter your email" required />
-  <button type="submit">Continue to download</button>
+  <input
+    type="email"
+    name="email"
+    placeholder="Enter your email"
+    required
+  />
+
+  <button type="submit">
+    Continue to Download
+  </button>
+
 </form>
+
+<div class="note">
+No card required · Instant download
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
