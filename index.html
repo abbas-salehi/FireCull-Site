@@ -161,6 +161,20 @@
   .nav-active{
     color:var(--text);
   }
+
+  .demo-video{
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    background:#0F172A;
+    box-shadow: 0 10px 24px rgba(17,24,39,0.10);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .demo-video:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(17,24,39,0.14);
+  }
   </style>
 </head>
 <body>
@@ -183,6 +197,29 @@
           <li>Applies <strong>star ratings</strong> in Absolute or Relative mode to surface stronger frames faster.</li>
           <li>Flags likely <strong>closed-eye</strong> shots so you can catch obvious misses quickly.</li>
         </ul>
+
+        <div style="margin-top:16px;">
+          <div style="font-size:14px; font-weight:700; margin-bottom:8px; color:var(--text);">
+            Quick demo
+          </div>
+
+          <div class="demo-video">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              style="display:block; width:100%; height:auto;"
+            >
+              <source src="https://downloads.firecull.ai/demo/run-firecull-demo.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div style="margin-top:8px; color:var(--muted); font-size:14px; line-height:1.45;">
+            Run FireCull from Lightroom and open the report in seconds.
+          </div>
+        </div>
 
         
 
