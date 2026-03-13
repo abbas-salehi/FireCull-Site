@@ -193,6 +193,43 @@
     width:100%;
     height:auto;
   }
+
+  .workflow-section{
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+
+  .workflow-note{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.55;
+    margin:0 0 10px;
+  }
+
+  .workflow-shot{
+    max-width:560px;
+    margin:12px auto 0 auto;
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 8px 22px rgba(17,24,39,0.08);
+  }
+
+  .workflow-shot img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+
+  .workflow-caption{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.45;
+    text-align:center;
+  }
   </style>
 </head>
 <body>
@@ -247,6 +284,29 @@
           <li>Go to <code>File → Plug-in Extras → Analyze with FireCull</code></li>
           <li>Review the ratings and keep moving</li>
         </ul>
+
+        <div class="workflow-section">
+          <h3 style="margin:0 0 8px; font-size:22px;">Apply selections automatically</h3>
+          <p class="workflow-note">
+            FireCull can export your report selections as a .json file, then apply them back in Lightroom as labels, pick flags, or a collection.
+          </p>
+          <ul>
+            <li>Select photos in the FireCull report</li>
+            <li>Click <code>Export Selected (.json)</code></li>
+            <li>Go to <code>File → Plug-in Extras → Apply Selection (FireCull Report)</code></li>
+          </ul>
+
+          <div class="workflow-shot">
+            <img
+              src="https://downloads.firecull.ai/demo/apply-selection-workflow.png"
+              alt="FireCull workflow for exporting selected images and applying them back in Lightroom"
+            />
+          </div>
+
+          <div class="workflow-caption">
+            Export selections from the report, then apply them back in Lightroom in a few clicks.
+          </div>
+        </div>
       </div>
 
       <div class="card">
