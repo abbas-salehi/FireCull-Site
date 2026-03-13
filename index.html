@@ -213,11 +213,17 @@
     border:1px solid var(--line);
     border-radius:14px;
     overflow:hidden;
-    background:#fff;
+    background:#0F172A;
     box-shadow:0 8px 22px rgba(17,24,39,0.08);
+    transition:transform 180ms ease, box-shadow 180ms ease;
   }
 
-  .workflow-shot img{
+  .workflow-shot:hover{
+    transform:translateY(-1px);
+    box-shadow:0 12px 28px rgba(17,24,39,0.12);
+  }
+
+  .workflow-shot video{
     display:block;
     width:100%;
     height:auto;
@@ -345,10 +351,15 @@
           </ul>
 
           <div class="workflow-shot">
-            <img
-              src="https://downloads.firecull.ai/demo/apply-selection-demo1.png"
-              alt="FireCull workflow for exporting selected images and applying them back in Lightroom"
-            />
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            >
+              <source src="https://downloads.firecull.ai/demo/apply-selection-demo.mp4" type="video/mp4" />
+            </video>
           </div>
 
           <div class="workflow-caption">
