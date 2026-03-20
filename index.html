@@ -239,19 +239,58 @@
 
   .testimonials{
     margin-top:34px;
+    overflow:hidden;
   }
 
-  .testimonial-grid{
+  .testimonial-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .testimonial-header h2{
+    margin:0;
+  }
+
+  .testimonial-controls{
+    display:flex;
+    gap:8px;
+  }
+
+  .carousel-arrow{
+    width:38px;
+    height:38px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:rgba(255,255,255,0.9);
+    color:var(--text);
     display:grid;
-    grid-template-columns:1fr;
-    gap:18px;
-    margin-top:16px;
+    place-items:center;
+    cursor:pointer;
+    font-size:18px;
+    line-height:1;
+    transition:background 160ms ease, border-color 160ms ease, color 160ms ease;
   }
 
-  @media (min-width:900px){
-    .testimonial-grid{
-      grid-template-columns:1fr 1fr 1fr;
-    }
+  .carousel-arrow:hover,
+  .carousel-arrow:focus-visible{
+    background:rgba(37,99,235,0.08);
+    border-color:rgba(37,99,235,0.28);
+    color:var(--blue);
+    outline:none;
+  }
+
+  .testimonial-carousel{
+    margin-top:16px;
+    overflow:hidden;
+  }
+
+  .testimonial-track{
+    display:flex;
+    gap:18px;
+    transition:transform 300ms ease;
+    will-change:transform;
   }
 
   .testimonial{
@@ -260,6 +299,24 @@
     border-radius:16px;
     padding:18px;
     box-shadow:0 8px 24px rgba(17,24,39,0.06);
+    flex:0 0 calc((100% - 36px) / 3);
+    box-sizing:border-box;
+  }
+
+  @media (max-width:899px){
+    .testimonial{
+      flex:0 0 calc((100% - 18px) / 2);
+    }
+  }
+
+  @media (max-width:639px){
+    .testimonial{
+      flex:0 0 100%;
+    }
+
+    .testimonial-header{
+      align-items:flex-start;
+    }
   }
 
   .testimonial-quote{
@@ -405,37 +462,45 @@
     </div>
 
     <section class="testimonials">
-      <h2>What photographers say</h2>
-
-      <div class="testimonial-grid">
-
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <div class="testimonial-quote">
-            “FireCull has become an essential first-pass filter in my workflow. The sharpness detection and eye-state labels are highly reliable, and the relative star rating system saves me hours of initial sorting.”
-          </div>
-          <div class="testimonial-author">Boy Fami Tarigan</div>
-          <div class="testimonial-role">Professional Wedding Photo Editor</div>
+      <div class="testimonial-header">
+        <h2>What photographers say</h2>
+        <div class="testimonial-controls">
+          <button class="carousel-arrow" type="button" data-testimonial-prev aria-label="Previous testimonial">&#8592;</button>
+          <button class="carousel-arrow" type="button" data-testimonial-next aria-label="Next testimonial">&#8594;</button>
         </div>
+      </div>
 
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <div class="testimonial-quote">
-            “FireCull works extremely well as a technical quality filter for portrait sessions. It quickly identifies unusable frames and speeds up the initial culling stage.”
+      <div class="testimonial-carousel" tabindex="0" aria-label="Testimonials carousel">
+        <div class="testimonial-track" id="testimonial-track">
+
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <div class="testimonial-quote">
+              “FireCull has become an essential first-pass filter in my workflow. The sharpness detection and eye-state labels are highly reliable, and the relative star rating system saves me hours of initial sorting.”
+            </div>
+            <div class="testimonial-author">Boy Fami Tarigan</div>
+            <div class="testimonial-role">Professional Wedding Photo Editor</div>
           </div>
-          <div class="testimonial-author">Yana Hrytsenko</div>
-          <div class="testimonial-role">Portrait Photographer & Retoucher</div>
-        </div>
 
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <div class="testimonial-quote">
-            “FireCull is a helpful tool for quickly identifying technically unusable photos and improving the efficiency of the initial culling stage.”
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <div class="testimonial-quote">
+              “FireCull works extremely well as a technical quality filter for portrait sessions. It quickly identifies unusable frames and speeds up the initial culling stage.”
+            </div>
+            <div class="testimonial-author">Yana Hrytsenko</div>
+            <div class="testimonial-role">Portrait Photographer & Retoucher</div>
           </div>
-          <div class="testimonial-author">Waqar A</div>
-          <div class="testimonial-role">Photographer / Designer</div>
-        </div>
 
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <div class="testimonial-quote">
+              “FireCull is a helpful tool for quickly identifying technically unusable photos and improving the efficiency of the initial culling stage.”
+            </div>
+            <div class="testimonial-author">Waqar A</div>
+            <div class="testimonial-role">Photographer / Designer</div>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -495,6 +560,100 @@
     });
 
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    (function () {
+      const testimonialSection = document.querySelector('.testimonials');
+      if (!testimonialSection) return;
+
+      const carousel = testimonialSection.querySelector('.testimonial-carousel');
+      const track = testimonialSection.querySelector('.testimonial-track');
+      const previousButton = testimonialSection.querySelector('[data-testimonial-prev]');
+      const nextButton = testimonialSection.querySelector('[data-testimonial-next]');
+      const cards = track ? Array.from(track.querySelectorAll('.testimonial')) : [];
+
+      if (!carousel || !track || !previousButton || !nextButton || cards.length === 0) return;
+
+      let currentIndex = 0;
+      let visibleItems = 1;
+      let autoplayTimer = null;
+      const autoplayDelayMs = 6500;
+
+      function getVisibleItems() {
+        if (window.innerWidth >= 900) return 3;
+        if (window.innerWidth >= 640) return 2;
+        return 1;
+      }
+
+      function getMaxIndex() {
+        return Math.max(0, cards.length - visibleItems);
+      }
+
+      function updateTrackPosition() {
+        const firstOffset = cards[0].offsetLeft;
+        const activeOffset = cards[currentIndex].offsetLeft;
+        track.style.transform = `translateX(${-1 * (activeOffset - firstOffset)}px)`;
+      }
+
+      function syncLayout() {
+        visibleItems = getVisibleItems();
+        const maxIndex = getMaxIndex();
+        if (currentIndex > maxIndex) {
+          currentIndex = maxIndex;
+        }
+        updateTrackPosition();
+      }
+
+      function goToNext() {
+        const maxIndex = getMaxIndex();
+        currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+        updateTrackPosition();
+      }
+
+      function goToPrevious() {
+        const maxIndex = getMaxIndex();
+        currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+        updateTrackPosition();
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer === null) return;
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = window.setInterval(goToNext, autoplayDelayMs);
+      }
+
+      previousButton.addEventListener('click', goToPrevious);
+      nextButton.addEventListener('click', goToNext);
+
+      carousel.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          goToNext();
+        }
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          goToPrevious();
+        }
+      });
+
+      testimonialSection.addEventListener('mouseenter', stopAutoplay);
+      testimonialSection.addEventListener('mouseleave', startAutoplay);
+      testimonialSection.addEventListener('focusin', stopAutoplay);
+      testimonialSection.addEventListener('focusout', (event) => {
+        if (!testimonialSection.contains(event.relatedTarget)) {
+          startAutoplay();
+        }
+      });
+
+      window.addEventListener('resize', syncLayout);
+
+      syncLayout();
+      startAutoplay();
+    })();
   </script>
   <script>
     (function () {
