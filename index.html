@@ -239,7 +239,7 @@
 
   .testimonials{
     margin-top:34px;
-    overflow:hidden;
+    overflow:visible;
   }
 
   .testimonial-header{
@@ -254,35 +254,76 @@
   }
 
   .testimonial-controls{
-    display:flex;
-    gap:8px;
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:3;
   }
 
   .carousel-arrow{
-    width:38px;
-    height:38px;
-    border:1px solid var(--line);
-    border-radius:999px;
-    background:rgba(255,255,255,0.9);
-    color:var(--text);
-    display:grid;
-    place-items:center;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    opacity:0.6;
     cursor:pointer;
-    font-size:18px;
+    font-size:22px;
     line-height:1;
-    transition:background 160ms ease, border-color 160ms ease, color 160ms ease;
+    padding:4px;
+    pointer-events:auto;
+    transition:opacity 160ms ease, color 160ms ease;
+  }
+
+  .carousel-arrow[data-testimonial-prev]{
+    left:-14px;
+  }
+
+  .carousel-arrow[data-testimonial-next]{
+    right:-14px;
   }
 
   .carousel-arrow:hover,
   .carousel-arrow:focus-visible{
-    background:rgba(37,99,235,0.08);
-    border-color:rgba(37,99,235,0.28);
+    opacity:1;
     color:var(--blue);
-    outline:none;
+  }
+
+  .carousel-arrow:focus-visible{
+    outline:2px solid rgba(37,99,235,0.35);
+    outline-offset:3px;
+    border-radius:4px;
   }
 
   .testimonial-carousel{
     margin-top:16px;
+    position:relative;
+    overflow:visible;
+  }
+
+  .testimonial-carousel::before,
+  .testimonial-carousel::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:52px;
+    pointer-events:none;
+    z-index:2;
+  }
+
+  .testimonial-carousel::before{
+    left:0;
+    background:linear-gradient(to right, var(--bg), rgba(247,248,251,0));
+  }
+
+  .testimonial-carousel::after{
+    right:0;
+    background:linear-gradient(to left, var(--bg), rgba(247,248,251,0));
+  }
+
+  .testimonial-viewport{
     overflow:hidden;
   }
 
@@ -310,6 +351,19 @@
   }
 
   @media (max-width:639px){
+    .testimonial-carousel::before,
+    .testimonial-carousel::after{
+      width:32px;
+    }
+
+    .carousel-arrow[data-testimonial-prev]{
+      left:-8px;
+    }
+
+    .carousel-arrow[data-testimonial-next]{
+      right:-8px;
+    }
+
     .testimonial{
       flex:0 0 100%;
     }
@@ -464,51 +518,54 @@
     <section class="testimonials">
       <div class="testimonial-header">
         <h2>What photographers say</h2>
+      </div>
+
+      <div class="testimonial-carousel" tabindex="0" aria-label="Testimonials carousel">
         <div class="testimonial-controls">
           <button class="carousel-arrow" type="button" data-testimonial-prev aria-label="Previous testimonial">&#8592;</button>
           <button class="carousel-arrow" type="button" data-testimonial-next aria-label="Next testimonial">&#8594;</button>
         </div>
-      </div>
 
-      <div class="testimonial-carousel" tabindex="0" aria-label="Testimonials carousel">
-        <div class="testimonial-track" id="testimonial-track">
+        <div class="testimonial-viewport">
+          <div class="testimonial-track" id="testimonial-track">
 
-          <div class="testimonial">
-            <div class="stars">★★★★★</div>
-            <div class="testimonial-quote">
-              “FireCull has become an essential first-pass filter in my workflow. The sharpness detection and eye-state labels are highly reliable, and the relative star rating system saves me hours of initial sorting.”
+            <div class="testimonial">
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-quote">
+                “FireCull has become an essential first-pass filter in my workflow. The sharpness detection and eye-state labels are highly reliable, and the relative star rating system saves me hours of initial sorting.”
+              </div>
+              <div class="testimonial-author">Boy Fami Tarigan</div>
+              <div class="testimonial-role">Professional Wedding Photo Editor</div>
             </div>
-            <div class="testimonial-author">Boy Fami Tarigan</div>
-            <div class="testimonial-role">Professional Wedding Photo Editor</div>
-          </div>
 
-          <div class="testimonial">
-            <div class="stars">★★★★★</div>
-            <div class="testimonial-quote">
-              “FireCull works extremely well as a technical quality filter for portrait sessions. It quickly identifies unusable frames and speeds up the initial culling stage.”
+            <div class="testimonial">
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-quote">
+                “FireCull works extremely well as a technical quality filter for portrait sessions. It quickly identifies unusable frames and speeds up the initial culling stage.”
+              </div>
+              <div class="testimonial-author">Yana Hrytsenko</div>
+              <div class="testimonial-role">Portrait Photographer & Retoucher</div>
             </div>
-            <div class="testimonial-author">Yana Hrytsenko</div>
-            <div class="testimonial-role">Portrait Photographer & Retoucher</div>
-          </div>
 
-          <div class="testimonial">
-            <div class="stars">★★★★★</div>
-            <div class="testimonial-quote">
-              “FireCull is a helpful tool for quickly identifying technically unusable photos and improving the efficiency of the initial culling stage.”
+            <div class="testimonial">
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-quote">
+                “FireCull is a helpful tool for quickly identifying technically unusable photos and improving the efficiency of the initial culling stage.”
+              </div>
+              <div class="testimonial-author">Waqar A</div>
+              <div class="testimonial-role">Photographer / Designer</div>
             </div>
-            <div class="testimonial-author">Waqar A</div>
-            <div class="testimonial-role">Photographer / Designer</div>
-          </div>
 
-          <div class="testimonial">
-            <div class="stars">★★★★★</div>
-            <div class="testimonial-quote">
-              “It definitely helped speed up the first pass, especially when filtering obvious rejects. Being able to stay inside Lightroom makes it very practical for real-world workflows.”
+            <div class="testimonial">
+              <div class="stars">★★★★★</div>
+              <div class="testimonial-quote">
+                “It definitely helped speed up the first pass, especially when filtering obvious rejects. Being able to stay inside Lightroom makes it very practical for real-world workflows.”
+              </div>
+              <div class="testimonial-author">Erick Carvalho</div>
+              <div class="testimonial-role">Wedding Photographer</div>
             </div>
-            <div class="testimonial-author">Erick Carvalho</div>
-            <div class="testimonial-role">Wedding Photographer</div>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>
