@@ -261,13 +261,15 @@
   }
 
   .testimonial-viewport{
-    overflow:visible;
+    overflow:hidden;
   }
 
   .testimonial-track{
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0, 1fr));
+    display:flex;
+    flex-wrap:nowrap;
     gap:18px;
+    transition:transform 700ms ease-in-out;
+    will-change:transform;
   }
 
   .testimonial{
@@ -276,19 +278,40 @@
     border-radius:16px;
     padding:18px;
     box-shadow:0 8px 24px rgba(17,24,39,0.06);
+    flex:0 0 calc((100% - 36px) / 3);
     box-sizing:border-box;
   }
 
   @media (max-width:899px){
-    .testimonial-track{
-      grid-template-columns:repeat(2, minmax(0, 1fr));
+    .testimonial{
+      flex:0 0 calc((100% - 18px) / 2);
     }
   }
 
   @media (max-width:639px){
+    .testimonial-viewport{
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+
+    .testimonial-viewport::-webkit-scrollbar{
+      display:none;
+    }
+
     .testimonial-track{
-      grid-template-columns:1fr;
       gap:14px;
+      width:max-content;
+      transform:none !important;
+      transition:none;
+      padding-right:14px;
+    }
+
+    .testimonial{
+      flex:0 0 min(84vw, 330px);
+      scroll-snap-align:start;
     }
 
     .testimonial-header{
@@ -575,18 +598,20 @@
       const testimonialSection = document.querySelector('.testimonials');
       if (!testimonialSection) return;
 
-      const carousel = testimonialSection.querySelector('.testimonial-carousel');
+      const viewport = testimonialSection.querySelector('.testimonial-viewport');
       const track = testimonialSection.querySelector('.testimonial-track');
-      const previousButton = testimonialSection.querySelector('[data-testimonial-prev]');
-      const nextButton = testimonialSection.querySelector('[data-testimonial-next]');
-      const cards = track ? Array.from(track.querySelectorAll('.testimonial')) : [];
+      const originalCards = track ? Array.from(track.querySelectorAll('.testimonial')) : [];
 
-      if (!carousel || !track || !previousButton || !nextButton || cards.length === 0) return;
+      if (!viewport || !track || originalCards.length < 2) return;
 
       let currentIndex = 0;
-      let visibleItems = 1;
+      let visibleItems = 3;
       let autoplayTimer = null;
-      const autoplayDelayMs = 6500;
+      let desktopMode = true;
+      let cardStep = 0;
+      let clones = [];
+      const autoplayDelayMs = 4500;
+      const transitionMs = 700;
 
       function getVisibleItems() {
         if (window.innerWidth >= 900) return 3;
@@ -594,35 +619,38 @@
         return 1;
       }
 
-      function getMaxIndex() {
-        return Math.max(0, cards.length - visibleItems);
+      function clearClones() {
+        clones.forEach((clone) => clone.remove());
+        clones = [];
       }
 
-      function updateTrackPosition() {
-        const firstOffset = cards[0].offsetLeft;
-        const activeOffset = cards[currentIndex].offsetLeft;
-        track.style.transform = `translateX(${-1 * (activeOffset - firstOffset)}px)`;
-      }
-
-      function syncLayout() {
-        visibleItems = getVisibleItems();
-        const maxIndex = getMaxIndex();
-        if (currentIndex > maxIndex) {
-          currentIndex = maxIndex;
+      function buildClones() {
+        clearClones();
+        const cloneCount = Math.min(visibleItems, originalCards.length);
+        for (let i = 0; i < cloneCount; i += 1) {
+          const clone = originalCards[i].cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+          clones.push(clone);
         }
-        updateTrackPosition();
       }
 
-      function goToNext() {
-        const maxIndex = getMaxIndex();
-        currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
-        updateTrackPosition();
+      function updateCardStep() {
+        const firstCard = originalCards[0];
+        const secondCard = originalCards[1] || clones[0];
+        if (!firstCard || !secondCard) return;
+        cardStep = secondCard.offsetLeft - firstCard.offsetLeft;
       }
 
-      function goToPrevious() {
-        const maxIndex = getMaxIndex();
-        currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
-        updateTrackPosition();
+      function jumpTo(index) {
+        track.style.transition = 'none';
+        track.style.transform = `translateX(${-index * cardStep}px)`;
+        void track.offsetHeight;
+        track.style.transition = `transform ${transitionMs}ms ease-in-out`;
+      }
+
+      function animateTo(index) {
+        track.style.transform = `translateX(${-index * cardStep}px)`;
       }
 
       function stopAutoplay() {
@@ -631,24 +659,52 @@
         autoplayTimer = null;
       }
 
+      function goToNext() {
+        if (!desktopMode || cardStep === 0) return;
+
+        currentIndex += 1;
+        animateTo(currentIndex);
+
+        if (currentIndex >= originalCards.length) {
+          window.setTimeout(() => {
+            currentIndex = 0;
+            jumpTo(currentIndex);
+          }, transitionMs + 20);
+        }
+      }
+
       function startAutoplay() {
         stopAutoplay();
+        if (!desktopMode) return;
         autoplayTimer = window.setInterval(goToNext, autoplayDelayMs);
       }
 
-      previousButton.addEventListener('click', goToPrevious);
-      nextButton.addEventListener('click', goToNext);
+      function enableDesktopMode() {
+        desktopMode = true;
+        visibleItems = getVisibleItems();
+        buildClones();
+        updateCardStep();
+        currentIndex = 0;
+        jumpTo(currentIndex);
+        startAutoplay();
+      }
 
-      carousel.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowRight') {
-          event.preventDefault();
-          goToNext();
+      function enableMobileMode() {
+        desktopMode = false;
+        stopAutoplay();
+        clearClones();
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0px)';
+      }
+
+      function syncMode() {
+        const shouldUseDesktop = window.innerWidth > 639;
+        if (shouldUseDesktop) {
+          enableDesktopMode();
+          return;
         }
-        if (event.key === 'ArrowLeft') {
-          event.preventDefault();
-          goToPrevious();
-        }
-      });
+        enableMobileMode();
+      }
 
       testimonialSection.addEventListener('mouseenter', stopAutoplay);
       testimonialSection.addEventListener('mouseleave', startAutoplay);
@@ -659,10 +715,9 @@
         }
       });
 
-      window.addEventListener('resize', syncLayout);
+      window.addEventListener('resize', syncMode);
 
-      syncLayout();
-      startAutoplay();
+      syncMode();
     })();
   </script>
   <script>
