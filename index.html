@@ -272,6 +272,36 @@
     will-change:transform;
   }
 
+  .testimonial-dots{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+  }
+
+  .testimonial-dot{
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    border:none;
+    background:#CBD5E1;
+    cursor:pointer;
+    padding:0;
+    transition:background-color 180ms ease, transform 180ms ease;
+  }
+
+  .testimonial-dot:hover,
+  .testimonial-dot:focus-visible{
+    background:#94A3B8;
+    outline:none;
+  }
+
+  .testimonial-dot.active{
+    background:#334155;
+    transform:scale(1.1);
+  }
+
   .testimonial{
     background:var(--card);
     border:1px solid var(--line);
@@ -289,29 +319,8 @@
   }
 
   @media (max-width:639px){
-    .testimonial-viewport{
-      overflow-x:auto;
-      overflow-y:hidden;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;
-    }
-
-    .testimonial-viewport::-webkit-scrollbar{
-      display:none;
-    }
-
-    .testimonial-track{
-      gap:14px;
-      width:max-content;
-      transform:none !important;
-      transition:none;
-      padding-right:14px;
-    }
-
     .testimonial{
-      flex:0 0 min(84vw, 330px);
-      scroll-snap-align:start;
+      flex:0 0 100%;
     }
 
     .testimonial-header{
@@ -534,6 +543,7 @@
 
           </div>
         </div>
+        <div class="testimonial-dots" id="testimonial-dots" aria-label="Testimonial pages"></div>
       </div>
     </section>
 
@@ -598,20 +608,16 @@
       const testimonialSection = document.querySelector('.testimonials');
       if (!testimonialSection) return;
 
-      const viewport = testimonialSection.querySelector('.testimonial-viewport');
       const track = testimonialSection.querySelector('.testimonial-track');
-      const originalCards = track ? Array.from(track.querySelectorAll('.testimonial')) : [];
+      const dotsContainer = testimonialSection.querySelector('#testimonial-dots');
+      const cards = track ? Array.from(track.querySelectorAll('.testimonial')) : [];
 
-      if (!viewport || !track || originalCards.length < 2) return;
+      if (!track || !dotsContainer || cards.length === 0) return;
 
-      let currentIndex = 0;
+      let currentPage = 0;
       let visibleItems = 3;
-      let autoplayTimer = null;
-      let desktopMode = true;
-      let cardStep = 0;
-      let clones = [];
-      const autoplayDelayMs = 4500;
-      const transitionMs = 700;
+      let pageCount = 1;
+      let dots = [];
 
       function getVisibleItems() {
         if (window.innerWidth >= 900) return 3;
@@ -619,105 +625,63 @@
         return 1;
       }
 
-      function clearClones() {
-        clones.forEach((clone) => clone.remove());
-        clones = [];
+      function getMaxStartIndex() {
+        return Math.max(0, cards.length - visibleItems);
       }
 
-      function buildClones() {
-        clearClones();
-        const cloneCount = Math.min(visibleItems, originalCards.length);
-        for (let i = 0; i < cloneCount; i += 1) {
-          const clone = originalCards[i].cloneNode(true);
-          clone.setAttribute('aria-hidden', 'true');
-          track.appendChild(clone);
-          clones.push(clone);
+      function getStartIndexForPage(page) {
+        const maxStart = getMaxStartIndex();
+        return Math.min(page * visibleItems, maxStart);
+      }
+
+      function updateDotsState() {
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentPage);
+          dot.setAttribute('aria-current', index === currentPage ? 'true' : 'false');
+        });
+      }
+
+      function renderDots() {
+        dotsContainer.innerHTML = '';
+        dots = [];
+
+        for (let i = 0; i < pageCount; i += 1) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'testimonial-dot';
+          dot.setAttribute('aria-label', `Go to testimonial page ${i + 1}`);
+          dot.addEventListener('click', () => {
+            goToPage(i);
+          });
+          dotsContainer.appendChild(dot);
+          dots.push(dot);
         }
       }
 
-      function updateCardStep() {
-        const firstCard = originalCards[0];
-        const secondCard = originalCards[1] || clones[0];
-        if (!firstCard || !secondCard) return;
-        cardStep = secondCard.offsetLeft - firstCard.offsetLeft;
+      function updatePosition() {
+        const startIndex = getStartIndexForPage(currentPage);
+        const firstOffset = cards[0].offsetLeft;
+        const activeOffset = cards[startIndex].offsetLeft;
+        track.style.transform = `translateX(${-1 * (activeOffset - firstOffset)}px)`;
+        updateDotsState();
       }
 
-      function jumpTo(index) {
-        track.style.transition = 'none';
-        track.style.transform = `translateX(${-index * cardStep}px)`;
-        void track.offsetHeight;
-        track.style.transition = `transform ${transitionMs}ms ease-in-out`;
+      function goToPage(page) {
+        currentPage = Math.max(0, Math.min(page, pageCount - 1));
+        updatePosition();
       }
 
-      function animateTo(index) {
-        track.style.transform = `translateX(${-index * cardStep}px)`;
-      }
-
-      function stopAutoplay() {
-        if (autoplayTimer === null) return;
-        window.clearInterval(autoplayTimer);
-        autoplayTimer = null;
-      }
-
-      function goToNext() {
-        if (!desktopMode || cardStep === 0) return;
-
-        currentIndex += 1;
-        animateTo(currentIndex);
-
-        if (currentIndex >= originalCards.length) {
-          window.setTimeout(() => {
-            currentIndex = 0;
-            jumpTo(currentIndex);
-          }, transitionMs + 20);
-        }
-      }
-
-      function startAutoplay() {
-        stopAutoplay();
-        if (!desktopMode) return;
-        autoplayTimer = window.setInterval(goToNext, autoplayDelayMs);
-      }
-
-      function enableDesktopMode() {
-        desktopMode = true;
+      function syncLayout() {
         visibleItems = getVisibleItems();
-        buildClones();
-        updateCardStep();
-        currentIndex = 0;
-        jumpTo(currentIndex);
-        startAutoplay();
+        pageCount = Math.max(1, Math.ceil(cards.length / visibleItems));
+        currentPage = Math.min(currentPage, pageCount - 1);
+        renderDots();
+        updatePosition();
       }
 
-      function enableMobileMode() {
-        desktopMode = false;
-        stopAutoplay();
-        clearClones();
-        track.style.transition = 'none';
-        track.style.transform = 'translateX(0px)';
-      }
+      window.addEventListener('resize', syncLayout);
 
-      function syncMode() {
-        const shouldUseDesktop = window.innerWidth > 639;
-        if (shouldUseDesktop) {
-          enableDesktopMode();
-          return;
-        }
-        enableMobileMode();
-      }
-
-      testimonialSection.addEventListener('mouseenter', stopAutoplay);
-      testimonialSection.addEventListener('mouseleave', startAutoplay);
-      testimonialSection.addEventListener('focusin', stopAutoplay);
-      testimonialSection.addEventListener('focusout', (event) => {
-        if (!testimonialSection.contains(event.relatedTarget)) {
-          startAutoplay();
-        }
-      });
-
-      window.addEventListener('resize', syncMode);
-
-      syncMode();
+      syncLayout();
     })();
   </script>
   <script>
