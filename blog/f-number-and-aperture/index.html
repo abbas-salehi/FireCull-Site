@@ -10,13 +10,14 @@
   />
   <style>
     :root {
-      --bg: #ffffff;
-      --text: #1a1a1a;
-      --muted: #666666;
-      --line: #e8e8e8;
-      --accent: #111111;
-      --soft: #f7f7f7;
-      --max: 820px;
+      --bg-left: #dfe7f5;
+      --bg-right: #eadff1;
+      --card: rgba(255, 255, 255, 0.72);
+      --text: #1f2937;
+      --muted: #4b5563;
+      --line: rgba(31, 41, 55, 0.16);
+      --accent: #4f46e5;
+      --accent-2: #7c3aed;
     }
 
     * {
@@ -27,19 +28,63 @@
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
-      background: var(--bg);
+      background: linear-gradient(90deg, var(--bg-left) 0%, var(--bg-right) 100%);
       line-height: 1.75;
     }
 
-    .article-wrap {
-      max-width: var(--max);
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 56px 20px 80px;
+      padding: 28px 24px 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 28px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .site-header a:hover {
+      opacity: 0.7;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 28px auto 80px;
+      padding: 0 24px;
+    }
+
+    .article-card {
+      background: var(--card);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 32px 32px 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .article-wrap {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0;
     }
 
     .eyebrow {
       display: inline-block;
-      font-size: 0.85rem;
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -48,69 +93,70 @@
     }
 
     h1 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.15;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.08;
       margin: 0 0 16px;
       letter-spacing: -0.03em;
     }
 
     .lead {
-      font-size: 1.15rem;
-      color: #333;
+      font-size: 20px;
+      color: var(--muted);
       margin: 0 0 28px;
+      max-width: 760px;
     }
 
     .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
       color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 36px;
+      font-size: 14px;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--line);
     }
 
     h2 {
-      font-size: 1.65rem;
-      line-height: 1.25;
-      margin: 44px 0 14px;
+      font-size: 32px;
+      line-height: 1.2;
+      margin: 42px 0 14px;
       letter-spacing: -0.02em;
     }
 
     p {
-      margin: 0 0 18px;
+      font-size: 19px;
+      margin: 0 0 20px;
     }
 
-    .figure {
-      margin: 34px 0 14px;
+    .image-block {
+      margin: 34px 0;
     }
 
-    .figure img {
+    .article-image {
       width: 100%;
-      height: auto;
       display: block;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: #fff;
+      border-radius: 20px;
     }
 
     .caption {
-      font-size: 0.95rem;
+      font-size: 14px;
       color: var(--muted);
       margin-top: 10px;
     }
 
     .callout {
-      background: var(--soft);
-      border: 1px solid var(--line);
+      background: #ffffff;
+      border: 1px solid rgba(79, 70, 229, 0.12);
       border-radius: 18px;
-      padding: 18px 20px;
-      margin: 28px 0;
-    }
-
-    .callout strong {
-      color: var(--accent);
+      padding: 22px;
+      margin: 34px 0;
     }
 
     ul {
-      margin: 0 0 20px 22px;
+      margin: 0 0 20px 24px;
       padding: 0;
+      font-size: 19px;
     }
 
     li {
@@ -123,207 +169,225 @@
       margin: 42px 0;
     }
 
-    .summary-box {
-      background: #fafafa;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 22px;
-      margin-top: 40px;
-    }
-
-    .summary-box h3 {
-      margin: 0 0 12px;
-      font-size: 1.15rem;
-    }
-
-    .summary-box p:last-child,
     .callout p:last-child {
       margin-bottom: 0;
     }
 
-    a {
-      color: inherit;
-    }
+    @media (max-width: 700px) {
+      .article-card {
+        padding: 24px 20px 30px;
+        border-radius: 22px;
+      }
 
-    @media (max-width: 640px) {
+      p,
+      ul {
+        font-size: 18px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .site-header {
+        justify-content: center;
+        padding-top: 20px;
+      }
+
       .article-wrap {
-        padding-top: 40px;
+        padding: 0;
       }
     }
   </style>
 </head>
 <body>
-  <main class="article-wrap">
-    <span class="eyebrow">Photography Basics</span>
-    <h1>What Is the f-Number on a Lens?</h1>
-    <p class="lead">
-      If you have ever seen numbers like <strong>f/1.8</strong>, <strong>f/2.8</strong>, or
-      <strong>f/8</strong> on your lens or camera screen, you were looking at the
-      <strong>f-number</strong>. It is one of the most important settings in photography, because it affects both
-      <strong>how much light enters the camera</strong> and <strong>how much of the image looks in focus</strong>.
-    </p>
-    <div class="meta">By FireCull • 5 min read</div>
+  <nav class="site-header">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/get-trial/">Download</a>
+    <a href="/pricing/">Pricing</a>
+  </nav>
 
-    <figure class="figure">
-      <img
-        src="https://assets.firecull.ai/blog/aperture-and-focal-length/aperture.jpg"
-        alt="Aperture diagram showing how f-number affects light and depth of field"
-      />
-      <figcaption class="caption">
-        Lower f-number = bigger opening, more light, and blurrier background. Higher f-number = smaller opening,
-        less light, and more of the scene in focus.
-      </figcaption>
-    </figure>
+  <main class="wrap">
+    <article class="article-card">
+      <div class="breadcrumb">
+        <a href="/blog/">Blog</a> / f-number and aperture
+      </div>
 
-    <h2>The simple explanation</h2>
-    <p>
-      The f-number describes the size of the lens opening, also called the <strong>aperture</strong>. When the opening
-      is wide, more light can pass through the lens. When the opening is small, less light gets in.
-    </p>
-    <p>
-      So in practical terms:
-    </p>
-    <ul>
-      <li><strong>f/1.8</strong> means a large opening</li>
-      <li><strong>f/8</strong> means a much smaller opening</li>
-    </ul>
-    <p>
-      This is why photographers often use low f-numbers in dark conditions or when they want a soft, blurry
-      background.
-    </p>
+      <div class="article-wrap">
+        <span class="eyebrow">Photography Basics</span>
+        <h1>What Is the f-Number on a Lens?</h1>
+        <p class="lead">
+          If you have ever seen numbers like <strong>f/1.8</strong>, <strong>f/2.8</strong>, or
+          <strong>f/8</strong> on your lens or camera screen, you were looking at the
+          <strong>f-number</strong>. It is one of the most important settings in photography, because it affects both
+          <strong>how much light enters the camera</strong> and <strong>how much of the image looks in focus</strong>.
+        </p>
+        <div class="meta">By FireCull • 5 min read</div>
 
-    <div class="callout">
-      <p>
-        <strong>The most important thing to remember:</strong> a lower f-number does <em>not</em> mean a smaller opening.
-        It means a <strong>bigger</strong> opening.
-      </p>
-    </div>
+        <div class="image-block">
+          <img
+            class="article-image"
+            src="https://assets.firecull.ai/blog/aperture-and-focal-length/aperture.jpg"
+            alt="Aperture diagram showing how f-number affects light and depth of field"
+          />
+          <div class="caption">
+            Lower f-number = bigger opening, more light, and blurrier background. Higher f-number = smaller opening,
+            less light, and more of the scene in focus.
+          </div>
+        </div>
 
-    <h2>Why do the numbers feel backwards?</h2>
-    <p>
-      This confuses almost everyone at first. The reason is that the f-number is a ratio, not a simple size label.
-      You do not need the math to use it well, but the result is this:
-    </p>
-    <ul>
-      <li><strong>Lower number</strong> → larger aperture opening</li>
-      <li><strong>Higher number</strong> → smaller aperture opening</li>
-    </ul>
-    <p>
-      That is why <strong>f/1.8</strong> lets in more light than <strong>f/8</strong>.
-    </p>
+        <h2>The simple explanation</h2>
+        <p>
+          The f-number describes the size of the lens opening, also called the <strong>aperture</strong>. When the opening
+          is wide, more light can pass through the lens. When the opening is small, less light gets in.
+        </p>
+        <p>
+          So in practical terms:
+        </p>
+        <ul>
+          <li><strong>f/1.8</strong> means a large opening</li>
+          <li><strong>f/8</strong> means a much smaller opening</li>
+        </ul>
+        <p>
+          This is why photographers often use low f-numbers in dark conditions or when they want a soft, blurry
+          background.
+        </p>
 
-    <h2>How the f-number affects your photos</h2>
-    <p>
-      The f-number changes two major things in your image: <strong>brightness</strong> and
-      <strong>depth of field</strong>.
-    </p>
+        <div class="callout">
+          <p>
+            <strong>The most important thing to remember:</strong> a lower f-number does <em>not</em> mean a smaller opening.
+            It means a <strong>bigger</strong> opening.
+          </p>
+        </div>
 
-    <h2>1. Light</h2>
-    <p>
-      A wide aperture such as <strong>f/1.8</strong> allows more light into the camera. This helps in low-light
-      situations like indoor portraits, wedding receptions, or evening sessions.
-    </p>
-    <p>
-      A narrower aperture such as <strong>f/8</strong> allows less light in, so you may need to compensate with a
-      slower shutter speed or higher ISO.
-    </p>
+        <h2>Why do the numbers feel backwards?</h2>
+        <p>
+          This confuses almost everyone at first. The reason is that the f-number is a ratio, not a simple size label.
+          You do not need the math to use it well, but the result is this:
+        </p>
+        <ul>
+          <li><strong>Lower number</strong> → larger aperture opening</li>
+          <li><strong>Higher number</strong> → smaller aperture opening</li>
+        </ul>
+        <p>
+          That is why <strong>f/1.8</strong> lets in more light than <strong>f/8</strong>.
+        </p>
 
-    <h2>2. Depth of field</h2>
-    <p>
-      Depth of field refers to how much of your image appears acceptably sharp from front to back.
-    </p>
-    <ul>
-      <li><strong>f/1.8</strong> gives you a shallow depth of field</li>
-      <li><strong>f/8</strong> gives you a deeper depth of field</li>
-    </ul>
-    <p>
-      In other words, a low f-number is great when you want your subject to stand out against a soft background, while
-      a higher f-number is better when you want more of the scene to stay sharp.
-    </p>
+        <h2>How the f-number affects your photos</h2>
+        <p>
+          The f-number changes two major things in your image: <strong>brightness</strong> and
+          <strong>depth of field</strong>.
+        </p>
 
-    <h2>Real examples</h2>
-    <ul>
-      <li><strong>Portraits:</strong> f/1.8 to f/2.8 for background blur and subject separation</li>
-      <li><strong>Group photos:</strong> f/4 to f/8 to keep more faces in focus</li>
-      <li><strong>Landscapes:</strong> often f/8 or higher for more overall sharpness</li>
-      <li><strong>Low-light events:</strong> lower f-numbers help gather more light</li>
-    </ul>
+        <h2>1. Light</h2>
+        <p>
+          A wide aperture such as <strong>f/1.8</strong> allows more light into the camera. This helps in low-light
+          situations like indoor portraits, wedding receptions, or evening sessions.
+        </p>
+        <p>
+          A narrower aperture such as <strong>f/8</strong> allows less light in, so you may need to compensate with a
+          slower shutter speed or higher ISO.
+        </p>
 
-    <div class="divider"></div>
+        <h2>2. Depth of field</h2>
+        <p>
+          Depth of field refers to how much of your image appears acceptably sharp from front to back.
+        </p>
+        <ul>
+          <li><strong>f/1.8</strong> gives you a shallow depth of field</li>
+          <li><strong>f/8</strong> gives you a deeper depth of field</li>
+        </ul>
+        <p>
+          In other words, a low f-number is great when you want your subject to stand out against a soft background, while
+          a higher f-number is better when you want more of the scene to stay sharp.
+        </p>
 
-    <h2>Do not confuse f-number with focal length</h2>
-    <p>
-      This is one of the biggest beginner mistakes. The <strong>f-number</strong> and
-      <strong>focal length</strong> are completely different things.
-    </p>
-    <ul>
-      <li><strong>f-number</strong> controls aperture, light, and depth of field</li>
-      <li><strong>focal length</strong> controls angle of view and how zoomed in the image looks</li>
-    </ul>
+        <h2>Real examples</h2>
+        <ul>
+          <li><strong>Portraits:</strong> f/1.8 to f/2.8 for background blur and subject separation</li>
+          <li><strong>Group photos:</strong> f/4 to f/8 to keep more faces in focus</li>
+          <li><strong>Landscapes:</strong> often f/8 or higher for more overall sharpness</li>
+          <li><strong>Low-light events:</strong> lower f-numbers help gather more light</li>
+        </ul>
 
-    <figure class="figure">
-      <img
-        src="https://assets.firecull.ai/blog/aperture-and-focal-length/focal_length.jpg"
-        alt="Focal length comparison showing 24mm, 50mm and 85mm with different angles of view"
-      />
-      <figcaption class="caption">
-        Short focal lengths show a wider view. Longer focal lengths show a narrower, more compressed view.
-      </figcaption>
-    </figure>
+        <div class="divider"></div>
 
-    <h2>What focal length changes</h2>
-    <p>
-      Focal length is measured in millimeters, such as <strong>24mm</strong>, <strong>50mm</strong>, or
-      <strong>85mm</strong>.
-    </p>
-    <ul>
-      <li><strong>24mm</strong> gives a wide angle of view and includes more of the scene</li>
-      <li><strong>50mm</strong> looks more natural and balanced</li>
-      <li><strong>85mm</strong> gives a tighter view and a more compressed look</li>
-    </ul>
-    <p>
-      So if you change from 24mm to 85mm, you are not changing the aperture. You are changing how wide or narrow the
-      scene appears.
-    </p>
+        <h2>Do not confuse f-number with focal length</h2>
+        <p>
+          This is one of the biggest beginner mistakes. The <strong>f-number</strong> and
+          <strong>focal length</strong> are completely different things.
+        </p>
+        <ul>
+          <li><strong>f-number</strong> controls aperture, light, and depth of field</li>
+          <li><strong>focal length</strong> controls angle of view and how zoomed in the image looks</li>
+        </ul>
 
-    <div class="callout">
-      <p>
-        <strong>Quick rule:</strong> f-number changes the <strong>opening</strong>. Focal length changes the
-        <strong>view</strong>.
-      </p>
-    </div>
+        <div class="image-block">
+          <img
+            class="article-image"
+            src="https://assets.firecull.ai/blog/aperture-and-focal-length/focal_length.jpg"
+            alt="Focal length comparison showing 24mm, 50mm and 85mm with different angles of view"
+          />
+          <div class="caption">
+            Short focal lengths show a wider view. Longer focal lengths show a narrower, more compressed view.
+          </div>
+        </div>
 
-    <h2>Why this matters in real shooting</h2>
-    <p>
-      In real life, both settings work together. For example, an <strong>85mm lens at f/1.8</strong> can create a very
-      strong background blur and a very thin plane of focus. That can look beautiful, but it also makes focusing more
-      critical.
-    </p>
-    <p>
-      This is one reason culling portrait and wedding photos can take time. When you shoot wide open, many frames may
-      look similar at first glance, but the differences in eye sharpness or focus accuracy can be subtle. That is
-      exactly where careful review matters.
-    </p>
+        <h2>What focal length changes</h2>
+        <p>
+          Focal length is measured in millimeters, such as <strong>24mm</strong>, <strong>50mm</strong>, or
+          <strong>85mm</strong>.
+        </p>
+        <ul>
+          <li><strong>24mm</strong> gives a wide angle of view and includes more of the scene</li>
+          <li><strong>50mm</strong> looks more natural and balanced</li>
+          <li><strong>85mm</strong> gives a tighter view and a more compressed look</li>
+        </ul>
+        <p>
+          So if you change from 24mm to 85mm, you are not changing the aperture. You are changing how wide or narrow the
+          scene appears.
+        </p>
 
-    <h2>Final takeaway</h2>
-    <p>
-      The f-number tells you how wide the lens aperture is. A lower f-number like <strong>f/1.8</strong> means more
-      light and a blurrier background. A higher f-number like <strong>f/8</strong> means less light and more of the
-      image in focus.
-    </p>
-    <p>
-      Focal length is different. It tells you how wide or narrow your view will be, such as 24mm, 50mm, or 85mm.
-    </p>
-    <p>
-      Once you understand the difference between these two settings, photography starts making a lot more sense.
-    </p>
+        <div class="callout">
+          <p>
+            <strong>Quick rule:</strong> f-number changes the <strong>opening</strong>. Focal length changes the
+            <strong>view</strong>.
+          </p>
+        </div>
 
-    <section class="summary-box">
-      <h3>In one sentence</h3>
-      <p>
-        <strong>f-number controls light and blur; focal length controls view and framing.</strong>
-      </p>
-    </section>
+        <h2>Why this matters in real shooting</h2>
+        <p>
+          In real life, both settings work together. For example, an <strong>85mm lens at f/1.8</strong> can create a very
+          strong background blur and a very thin plane of focus. That can look beautiful, but it also makes focusing more
+          critical.
+        </p>
+        <p>
+          This is one reason culling portrait and wedding photos can take time. When you shoot wide open, many frames may
+          look similar at first glance, but the differences in eye sharpness or focus accuracy can be subtle. That is
+          exactly where careful review matters.
+        </p>
+
+        <h2>Final takeaway</h2>
+        <p>
+          The f-number tells you how wide the lens aperture is. A lower f-number like <strong>f/1.8</strong> means more
+          light and a blurrier background. A higher f-number like <strong>f/8</strong> means less light and more of the
+          image in focus.
+        </p>
+        <p>
+          Focal length is different. It tells you how wide or narrow your view will be, such as 24mm, 50mm, or 85mm.
+        </p>
+        <p>
+          Once you understand the difference between these two settings, photography starts making a lot more sense.
+        </p>
+
+        <section class="callout">
+          <h3>In one sentence</h3>
+          <p>
+            <strong>f-number controls light and blur; focal length controls view and framing.</strong>
+          </p>
+        </section>
+      </div>
+    </article>
   </main>
 </body>
 </html>
