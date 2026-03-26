@@ -262,6 +262,7 @@
 
   .testimonial-viewport{
     overflow:hidden;
+    touch-action:pan-y;
   }
 
   .testimonial-track{
@@ -618,6 +619,14 @@
       let visibleItems = 3;
       let pageCount = 1;
       let dots = [];
+      const swipeThreshold = 45;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchEndX = 0;
+      let touchEndY = 0;
+      let isTouchTracking = false;
+
+      const viewport = testimonialSection.querySelector('.testimonial-viewport');
 
       function getVisibleItems() {
         if (window.innerWidth >= 900) return 3;
@@ -677,6 +686,52 @@
         currentPage = Math.min(currentPage, pageCount - 1);
         renderDots();
         updatePosition();
+      }
+
+      function onTouchStart(event) {
+        if (!event.touches || event.touches.length !== 1) return;
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchEndX = touch.clientX;
+        touchEndY = touch.clientY;
+        isTouchTracking = true;
+      }
+
+      function onTouchMove(event) {
+        if (!isTouchTracking || !event.touches || event.touches.length !== 1) return;
+        const touch = event.touches[0];
+        touchEndX = touch.clientX;
+        touchEndY = touch.clientY;
+      }
+
+      function onTouchEnd() {
+        if (!isTouchTracking) return;
+        isTouchTracking = false;
+
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        if (absX < swipeThreshold || absX <= absY) return;
+
+        if (deltaX < 0) {
+          goToPage(currentPage + 1);
+        } else {
+          goToPage(currentPage - 1);
+        }
+      }
+
+      function onTouchCancel() {
+        isTouchTracking = false;
+      }
+
+      if (viewport) {
+        viewport.addEventListener('touchstart', onTouchStart, { passive: true });
+        viewport.addEventListener('touchmove', onTouchMove, { passive: true });
+        viewport.addEventListener('touchend', onTouchEnd, { passive: true });
+        viewport.addEventListener('touchcancel', onTouchCancel, { passive: true });
       }
 
       window.addEventListener('resize', syncLayout);
