@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FireCull Blog — Culling Guides</title>
   <meta name="description" content="Learn how to cull photos faster in Lightroom. Guides for wedding and portrait photographers." />
+
   <style>
     body {
       margin: 0;
@@ -20,7 +21,7 @@
     }
 
     .top-nav {
-      max-width: 800px;
+      max-width: 900px;
       margin: 22px auto 0;
       display: flex;
       justify-content: flex-end;
@@ -38,13 +39,17 @@
       color: #374151;
     }
 
-    .card {
-      max-width: 800px;
+    .container {
+      max-width: 900px;
       margin: 24px auto 60px;
+    }
+
+    .header-card {
       padding: 30px;
       border-radius: 16px;
       background: #ffffff;
       box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -54,43 +59,75 @@
       line-height: 1.25;
     }
 
-    h2 {
-      margin-bottom: 0.35em;
-      font-size: 1.45rem;
-      line-height: 1.3;
+    .subtitle {
+      color: #4b5563;
+      margin: 8px 0 0;
     }
 
-    h2 a {
-      color: #111827;
+    .post-card {
+      display: block;
       text-decoration: none;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(31, 41, 55, 0.05);
+      transition: all 0.15s ease;
     }
 
-    h2 a:hover {
-      color: #1d4ed8;
+    .post-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(31, 41, 55, 0.08);
     }
+
+    .post-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+      color: #111827;
+    }
+
+    .post-desc {
+      margin: 0;
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
   </style>
 </head>
 
 <body>
 
-<nav class="top-nav" aria-label="Top navigation">
+<nav class="top-nav">
   <a href="/">Home</a>
   <a href="/blog/" aria-current="page">Blog</a>
 </nav>
 
-<main class="card">
+<main class="container">
 
-<h1>FireCull Blog</h1>
-<p>Guides to help you cull photos faster and improve your Lightroom workflow.</p>
+  <!-- Header -->
+  <div class="header-card">
+    <h1>FireCull Blog</h1>
+    <p class="subtitle">
+      Guides to help you cull photos faster and improve your Lightroom workflow.
+    </p>
+  </div>
 
-<hr>
-
-<h2>
-  <a href="how-to-cull-photos-faster-lightroom.html">
-    How to Cull Photos Faster in Lightroom
+  <!-- Article 1 -->
+  <a class="post-card" href="how-to-cull-photos-faster-lightroom.html">
+    <div class="post-title">How to Cull Photos Faster in Lightroom</div>
+    <p class="post-desc">
+      Learn how to reduce hours of culling into minutes with a better workflow.
+    </p>
   </a>
-</h2>
-<p>Learn how to reduce hours of culling into minutes with a better workflow.</p>
+
+  <!-- Article 2 -->
+  <a class="post-card" href="50mm-lens-popular.html">
+    <div class="post-title">Why the 50mm Lens Is the Most Popular Lens in Photography</div>
+    <p class="post-desc">
+      Why photographers keep coming back to 50mm, why professionals still use it, and how it quietly creates one of the biggest culling problems in Lightroom.
+    </p>
+  </a>
 
 </main>
 
